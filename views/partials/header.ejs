@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YelpCamp</title>
+  </head>
+
+  <body>
+    <h1>This is the header</h1>
+    <% if(!currentUser){ %>
+    <li><a href="/login">Login</a></li>
+    <li><a href="/signup">Sign Up</a></li>
+    <% } else { %>
+    <li><a href="#">Signed In As <%= currentUser.username %></a></li>
+    <li><a href="/logout">Logout</a></li>
+    <% } %> <% if(errors && errors.length > 0) { %>
+    <div>
+      <p><%=errors %></p>
+    </div>
+    <% } %> <% if(success && success.length > 0) { %>
+    <div>
+      <p><%= success %></p>
+    </div>
+    <% } %>
