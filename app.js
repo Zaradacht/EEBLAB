@@ -13,13 +13,14 @@ const path = require("path");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
-const app = express();
-
 // DEFINE CONSTANTS
 const SESSION_EXPIRATION_DATE = new Date(Date.now() + 86400 * 1000); //24h
 
 // import keys
 const keys = require("./config/keys");
+
+// APP.
+const app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -31,22 +32,8 @@ app.use(express.json());
 app.use(cookieParser(keys.secretOrKey));
 app.use(express.static(path.join(__dirname, "public")));
 
-// setting db
-let db = "";
-if (process.env.NODE_ENV === "production") {
-  db = keys.mongoURI;
-} else {
-  db = keys.mongoDevURI;
-}
-//connecting to db
-mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-    useFindAndModify: false,
-    useCreateIndex: true
-  })
-  .then(() => console.log("MongoDB Connected Successfuly!"))
-  .catch(err => console.log(err));
+// DB
+require("./config/db");
 
 // setting session
 app.use(
