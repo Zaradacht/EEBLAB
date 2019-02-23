@@ -1,12 +1,14 @@
 const LocalStrategy = require("passport-local").Strategy;
 
+const Admin = require("../models/Admin");
 const User = require("../models/User");
 
 module.exports = passport => {
   passport.use(
+    "admin",
     new LocalStrategy((username, password, done) => {
       // attempt to authenticate user
-      User.getAuthenticated(username, password, (err, user, reason) => {
+      Admin.getAuthenticated(username, password, (err, user, reason) => {
         if (err) {
           done(err);
         }
@@ -15,7 +17,7 @@ module.exports = passport => {
           return done(null, user);
         } else {
           // otherwise we can determine why we failed
-          const reasons = User.failedLogin;
+          const reasons = Admin.failedLogin;
           const errors = {};
           //   console.log("reason: " + reason);
           //   console.log("reasons.NOt_FOUND" + reasons.NOT_FOUND);
@@ -37,6 +39,23 @@ module.exports = passport => {
       });
     })
   );
+  passport.use(
+    "user",
+    new LocalStrategy((username, password, done) => {
+      User.findOne({ username }, (err, user) => {
+        if (err) {
+          return done(err);
+        }
+        if (!user) {
+          return done(null, false);
+        }
+        if (!user.checkpassword(password)) {
+          return done(null, false);
+        }
+        return done(null, user);
+      });
+    })
+  );
   passport.serializeUser((user, done) => {
     // console.log(
     //   "Inside SerializeUser: user looks like: " +
@@ -44,13 +63,13 @@ module.exports = passport => {
     //     "and user.id looks like: " +
     //     user.id
     // );
-    console.log("Inside [serializeUser]");
+    // console.log("Inside [serializeUser]");
     done(null, user._id);
   });
 
   passport.deserializeUser((id, done) => {
-    console.log("Inside [deserializeUser]");
-    User.findById(id, (err, user) => {
+    // console.log("Inside [deserializeUser]");
+    Admin.findById(id, (err, user) => {
       done(err, user);
     });
   });

@@ -11,7 +11,8 @@ const path = require("path");
 
 // importing routes
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+const adminIndexRouter = require("./routes/admins/index");
+const userIndexRouter = require("./routes/users/index");
 
 // DEFINE CONSTANTS
 const SESSION_EXPIRATION_DATE = new Date(Date.now() + 86400 * 1000); //24h
@@ -34,6 +35,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // DB
 require("./config/db");
+
+// SEED THE DATABASE
+require("./seeds")();
 
 // setting session
 app.use(
@@ -61,14 +65,15 @@ require("./config/passport")(passport);
 // passing variables to view pages.
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
-  console.log("[app.js] req.user = " + res.locals.currentUser);
+  // console.log("[app.js] req.user = " + res.locals.currentUser);
   res.locals.success = req.flash("success");
   res.locals.errors = req.flash("error");
   next();
 });
 // using routes
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/admins", adminIndexRouter);
+app.use("/users", userIndexRouter);
 
 // error handler
 // app.use((err, req, res, next) => {

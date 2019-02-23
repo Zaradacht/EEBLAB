@@ -1,11 +1,11 @@
 // Import user model
-const User = require("../models/User");
+const Admin = require("../models/Admin");
 const passport = require("passport");
 
 exports.signup = (req, res, next) => {
   let errors = {};
   const data = { ...res.locals };
-  User.findOne({
+  Admin.findOne({
     $or: [{ username: data.username }, { email: data.email }]
   })
     .then(user => {
@@ -23,16 +23,16 @@ exports.signup = (req, res, next) => {
         return res.redirect("back");
       } else {
         // create the user
-        const newUser = new User({
+        const newAdmin = new Admin({
           username: data.username,
           password: data.password,
           email: data.email
         });
-        newUser
+        newAdmin
           .save()
           .then(user => {
             req.flash("success", "Successfuly created the account");
-            res.redirect("/login");
+            res.redirect("/admins/login");
           })
           .catch(err => {
             console.log(err);
@@ -59,15 +59,15 @@ exports.login = (req, res, next) => {
     return res.render("/", { currentUser: req.user });
   } else {
     passport.authenticate(
-      "local",
+      "admin",
       { failureRedirect: "/" },
       (err, user, info) => {
         if (err) {
-          console.log("Triggered[err]");
+          // console.log("Triggered[err]");
           return next(err);
         }
         if (user) {
-          console.log("Triggered[user]");
+          // console.log("Triggered[user]");
           // console.log(
           //   "What user looks like after authentication passport: " + user
           // );
@@ -76,7 +76,7 @@ exports.login = (req, res, next) => {
               return next(err);
             }
             req.flash("success", "Succesfuly logged in");
-            return res.redirect("/");
+            return res.redirect("/admins/dashboard");
           });
           // return next(null, user);
         }
@@ -92,5 +92,5 @@ exports.login = (req, res, next) => {
 exports.logout = (req, res, next) => {
   req.logout();
   req.flash("success", "LOGGED YOU OUT!");
-  res.redirect("/");
+  res.redirect("/admins/");
 };
