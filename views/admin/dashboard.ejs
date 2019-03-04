@@ -1,90 +1,47 @@
 <% include ./partials/header %>
-<script>
-    window.onload = function() {
-    
-    var dataPoints = [];
-    
-    var chart = new CanvasJS.Chart("chartContainer", {
-      theme: "light2",
-      title: {
-        text: "Live Data"
-      },
-      data: [{
-        type: "line",
-        dataPoints: dataPoints
-      }]
-    });
-    updateData();
-    
-    // Initial Values
-    var xValue = 0;
-    var yValue = 10;
-    var newDataCount = 6;
-    
-    function addData(data) {
-      if(newDataCount != 1) {
-        $.each(data, function(key, value) {
-          dataPoints.push({x: value[0], y: parseInt(value[1])});
-          xValue++;
-          yValue = parseInt(value[1]);
-        });
-      } else {
-        //dataPoints.shift();
-        dataPoints.push({x: data[0][0], y: parseInt(data[0][1])});
-        xValue++;
-        yValue = parseInt(data[0][1]);
-      }
-      
-      newDataCount = 1;
-      chart.render();
-      setTimeout(updateData, 1500);
-    }
-    
-    function updateData() {
-      $.getJSON("https://canvasjs.com/services/data/datapoints.php?xstart="+xValue+"&ystart="+yValue+"&length="+newDataCount+"type=json", addData);
-    }
-    
-    }
-    </script>
-    <div class="sidenav">
-        <a href="#">Users</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
-    </div>
-    <!-- Page content -->
-    <div class="main">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-12" style="border: 1px solid black;">One</div>
+<script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+<script src="../javascripts/dashboard.js"></script>
+
+
+<div class="sidenav">
+    <a href="/admins/users/">Users</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+<!-- Page content -->
+<div class="main">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12" style="border: 1px solid black;">One</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="border: 1px solid black;">One</div>
+                <div class="col-md-6" style="border: 1px solid black;">Two</div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" style="border: 1px solid black;">One</div>
+                <div class="col-md-4" style="border: 1px solid black;">Two</div>
+                <div class="col-md-4" style="border: 1px solid black;">Three</div>
+            </div>
+            <div class="row">
+                <div class="col-md-3" style="border: 1px solid black;">
+                    One
                 </div>
-                <div class="row">
-                    <div class="col-md-6" style="border: 1px solid black;">One</div>
-                    <div class="col-md-6" style="border: 1px solid black;">Two</div>
+                <div class="col-md-3" style="border: 1px solid black;">
+                    two
                 </div>
-                <div class="row">
-                    <div class="col-md-4" style="border: 1px solid black;">One</div>
-                    <div class="col-md-4" style="border: 1px solid black;">Two</div>
-                    <div class="col-md-4" style="border: 1px solid black;">Three</div>
+                <div class="col-md-3" style="border: 1px solid black;">
+                    Three
                 </div>
-                <div class="row">
-                    <div class="col-md-3" style="border: 1px solid black;">
-                        One
-                    </div>
-                    <div class="col-md-3" style="border: 1px solid black;">
-                        two
-                    </div>
-                    <div class="col-md-3" style="border: 1px solid black;">
-                        Three
-                    </div>
-                    <div class="col-md-3" style="border: 1px solid black;">
-                        Four
-                    </div>
+                <div class="col-md-3" style="border: 1px solid black;">
+                    Four
                 </div>
             </div>
-          </div>          
+        </div>
     </div>
+</div>
 
 
 

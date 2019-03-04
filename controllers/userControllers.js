@@ -1,38 +1,35 @@
-// Import user model
-const Admin = require("../models/Admin");
+const TempUser = require("../models/TempUser");
 const passport = require("passport");
 
-exports.signup = (req, res, next) => {
+exports.signupForm = (req, res, next) => {
   let errors = {};
   const data = { ...res.locals };
-  Admin.findOne({
+  const newTempUser = new TempUser({
+    ...data
+  });
+  TempUser.findOne({
     $or: [{ username: data.username }, { email: data.email }]
   })
     .then(user => {
       if (user != null) {
         if (user.username == data.username) {
           errors.username = "The username is already used";
+          req.flash("error", "Username Already in use");
         } else if (user.email == data.email) {
           errors.email = "email is already used.";
+          req.flash("error", "Email Already in use");
         }
-        req.flash("error", {
-          errors,
-          email: data.email,
-          username: data.username
-        });
         return res.redirect("back");
       } else {
-        // create the user
-        const newAdmin = new Admin({
-          username: data.username,
-          password: data.password,
-          email: data.email
-        });
-        newAdmin
+        // Submit the request.
+        newTempUser
           .save()
-          .then(user => {
-            req.flash("success", "Successfuly created the account");
-            return res.redirect("/admins/login");
+          .then(usr => {
+            req.flash(
+              "success",
+              "Your request is submitted successfully, The process might take 0 to several days."
+            );
+            return res.redirect("/");
           })
           .catch(err => {
             console.log(err);
@@ -48,9 +45,10 @@ exports.signup = (req, res, next) => {
     });
 };
 
-exports.login = (req, res, next) => {
+exports.loginUser = (req, res, next) => {
   let errors = {};
   const data = { ...res.locals };
+  console.log("[loginUserController] req.user = " + req.user);
   if (req.user) {
     req.flash(
       "error",
@@ -59,7 +57,7 @@ exports.login = (req, res, next) => {
     return res.redirect("back");
   } else {
     passport.authenticate(
-      "admin",
+      "user",
       { failureRedirect: "/" },
       (err, user, info) => {
         if (err) {
@@ -76,21 +74,15 @@ exports.login = (req, res, next) => {
               return next(err);
             }
             req.flash("success", "Succesfuly logged in");
-            return res.redirect("/admins/dashboard");
+            return res.redirect("/users");
           });
           // return next(null, user);
         }
         if (info) {
           req.flash("error", info.message);
-          res.redirect("back");
+          return res.redirect("back");
         }
       }
     )(req, res, next);
   }
-};
-
-exports.logout = (req, res, next) => {
-  req.logout();
-  req.flash("success", "LOGGED YOU OUT!");
-  res.redirect("/");
 };

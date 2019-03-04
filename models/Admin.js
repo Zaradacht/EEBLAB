@@ -47,6 +47,9 @@ const adminSchema = new Schema({
   }
 });
 
+// table person (id,nom,prenom, #id_role);
+// table roles (id,create);
+
 // virtuals
 adminSchema.virtual("isLocked").get(function() {
   return !!(this.lockUntil && this.lockUntil > Date.now());

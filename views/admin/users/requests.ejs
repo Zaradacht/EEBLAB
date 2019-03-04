@@ -1,0 +1,53 @@
+<% include ../partials/header %>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+            <div class="jumbotron">
+                <h1>User requests</h1>
+                <p>A table of all users requests </p>
+            </div>
+
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>phone number</th>
+                    <th>CIN</th>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Submit date</th>
+                    <th class="warning">Action</th>
+                </thead>
+                <tbody>
+                    <% if(users && users.length > 0) { %>
+                    <% users.map(user => { %>
+                    <tr>
+                        <td><%= user.firstname %></td>
+                        <td><%= user.lastname %></td>
+                        <td><%= user.phonenumber %></td>
+                        <td><%= user.cin %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.username %></td>
+                        <td><%= user.password %></td>
+                        <td><%= moment(user.date).format('DD-MM-YYYY') %></td>
+                        <td class="warning">
+                            <a href="/admins/users/requests/<%=user.id%>/approve">Approve</a>
+                            <a href="/admins/users/requests/<%=user.id%>/delete">Delete</a>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    <% } else { %>
+                    <h1>No users to show at the moment!</h1>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

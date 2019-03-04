@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
+            <div class="jumbotron">
+                <h1>Users Dashboard</h1>
+                <p>A table of all available users </p>
+            </div>
+            <div>
+                <a href="/admins/users/new">Create user</a>
+                <a href="/admins/users/requests">User requests (<%= requestCount %>) </a>
+            </div>
+
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <th>Username</th>
+                    <th>ID</th>
+                    <th class="warning">Action</th>
+                </thead>
+                <tbody>
+                    <% if(users && users.length > 0) { %>
+                    <% users.map(user => { %>
+                    <tr>
+                        <td><a href="/admins/users/<%=user.id%>"><%=user.username%></a></td>
+                        <td><%= user.id%></td>
+                        <td class="warning">
+                            <a href="/admins/users/<%=user.id%>/edit">Edit</a>
+                            <form action="/admins/users/<%=user._id%>?_method=DELETE" method="POST">
+                                <button>Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                    <% } else { %>
+                    <h1>No users to show at the moment!</h1>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
+
+<% include ../partials/footer %>

@@ -1,0 +1,37 @@
+<% include ../partials/header %>
+
+<h2 style="text-align: center">Create a new user account</h2>
+<hr style="width: 30%;">
+<div style="width: 30%; margin: 25px auto;">
+    <form action="/admins/users/" method="post">
+        <div class="form-group">
+            <input class="form-control" type="text" name="firstname" placeholder="First name" value="" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="lastname" placeholder="Last name" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="cin" placeholder="cin" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="phonenumber" placeholder="Phone number" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="email" placeholder="email" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="text" name="username" placeholder="username" value="" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="password" />
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password2" placeholder="password again.." />
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
+        </div>
+    </form>
+</div>
+
+<% include ../partials/footer %>

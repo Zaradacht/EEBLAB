@@ -22,8 +22,8 @@ tempSchema = new Schema({
   },
   time: {
     type: Number,
-    // default: Math.round(new Date().getTime() / 1000)
-    default: new Date().getTime() / 1000
+    default: Math.round(new Date().getTime() / 1000)
+    // default: new Date().getTime() / 1000
   }
 });
 
