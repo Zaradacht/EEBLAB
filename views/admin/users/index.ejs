@@ -28,7 +28,8 @@
                         <td><%= user.id%></td>
                         <td class="warning">
                             <a href="/admins/users/<%=user.id%>/edit">Edit</a>
-                            <form action="/admins/users/<%=user._id%>?_method=DELETE" method="POST">
+                            <form action="/admins/users/<%=user._id%>?_method=DELETE" method="POST"
+                                onsubmit="return confirm('Are you sure?');">
                                 <button>Delete</button>
                             </form>
                         </td>
@@ -40,7 +41,8 @@
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-1"></div>
+        <div class=" col-lg-1">
+        </div>
     </div>
 </div>
 
