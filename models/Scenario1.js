@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Temp schema
-tempSchema = new Schema({
+scenario1Schema = new Schema({
   data: {
     A: {
       type: Number
@@ -27,7 +27,7 @@ tempSchema = new Schema({
   }
 });
 
-// Temp Model
-const Temp = mongoose.model("Temp", tempSchema);
+// Scenario Model
+const Scenario1 = mongoose.model("Scenario1", scenario1Schema);
 
-module.exports = Temp;
+module.exports = Scenario1;

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Temp = require("./models/Temp");
+const Scenario1 = require("./models/Scenario1");
 
 const data = [
   {
@@ -42,20 +42,18 @@ const data = [
 
 module.exports = seedDB = () => {
   //Remove all campgrounds
-  Temp.remove({}, err => {
+  Scenario1.remove({}, err => {
     if (err) {
       console.log(err);
     }
     console.log("removed temperatures!");
     //add a few campgrounds
     data.forEach(seed => {
-      Temp.create(seed, (err, temp) => {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("added a temperature: " + JSON.stringify(temp, null, 2));
-        }
-      });
+      Scenario1.create(seed)
+        .then(data =>
+          console.log("added a temperature: " + JSON.stringify(temp, null, 2))
+        )
+        .catch(err => console.log("[seeds.js] err = " + err));
     });
   });
   //add a few comments
