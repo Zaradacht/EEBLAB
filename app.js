@@ -56,8 +56,7 @@ app.use(
     resave: false,
     expires: SESSION_EXPIRATION_DATE,
     cookie: {
-      maxAge: SESSION_EXPIRATION_DATE,
-      domain: "/RealTimeMonitoringApp"
+      maxAge: SESSION_EXPIRATION_DATE
     },
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     saveUninitialized: false
